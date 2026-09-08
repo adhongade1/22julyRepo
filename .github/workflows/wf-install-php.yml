@@ -1,0 +1,18 @@
+---
+name: install-php-ubuntu
+on: workflow_dispatch
+jobs:
+  install-php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check if php is installed
+        run: |
+          if command -v php &> /dev/null; then
+            echo "PHP is already installed."
+          else
+            echo "PHP is not installed."
+          fi
+      - name: Install PHP and required extensions
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php php-cli php-mbstring php-xml php-curl php-mysql
