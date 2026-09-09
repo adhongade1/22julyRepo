@@ -16,3 +16,5 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y php php-cli php-mbstring php-xml php-curl php-mysql
+      - name: Verify PHP installation
+        run: php --version
