@@ -1,5 +1,5 @@
 name: Ignore-Failure-Example # this workflow demonstrates how to ignore failures in a job and continue to the next step
-on: workflow_dispatch: # this will allow us to run the workflow manually from the github repo
+on: workflow_dispatch # this will allow us to run the workflow manually from the github repo
 jobs:
   
   Ignoring-Failures: # this job will ignore failures and continue to the next step
