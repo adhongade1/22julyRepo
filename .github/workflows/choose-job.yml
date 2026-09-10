@@ -1,0 +1,45 @@
+# generate the workflow which provide the ability to choose the job to run in the workflow
+name: choose job to run
+on:
+  workflow_dispatch:
+    inputs:
+      job_to_run:
+        description: 'Choose the job to run'
+        required: true
+        default: 'job_maven'
+        type: choice
+        options:
+          - run-linux-command
+          - install-php
+          - install-python
+jobs:
+  run-linux-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: execute linux command 
+        run: echo "Executing a Linux command..."
+      - name: create a file
+        run: echo "This is a sample file created by the workflow." > sample_file.txt
+      - name: verify file creation
+        run: cat sample_file.txt
+  
+  install-php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PHP installation
+        run: php -m
+      - name: Verify PHP installation
+        run: php -v
+  
+  install-python: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: install python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13' 
+      - name: Install Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
