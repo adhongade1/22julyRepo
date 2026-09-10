@@ -1,0 +1,63 @@
+name: Ignore-Failure-Example # this workflow demonstrates how to ignore failures in a job and continue to the next step
+on: workflow_dispatch: # this will allow us to run the workflow manually from the github repo
+jobs:
+  
+  Ignoring-Failures: # this job will ignore failures and continue to the next step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run risky command
+        run: exit 1
+        continue-on-error: true
+
+      - name: Next step still runs
+        run: echo "This runs even if previous failed"
+  
+  Conditional-Execution: # this job will run steps based on the outcome of previous steps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run tests
+        run: exit 1
+
+      - name: Run only if success
+        if: ${{ success() }}
+        run: echo "Tests passed!"
+
+      - name: Run only if failure
+        if: ${{ failure() }}
+        run: echo "Tests failed!"
+
+      - name: Always run
+        if: ${{ always() }}
+        run: echo "This always runs"
+
+      - name: Run if cancelled
+        if: ${{ cancelled() }}
+        run: echo "Workflow was cancelled"
+
+  Step-Outcomes: # this job will demonstrate how to check the outcome of a specific step
+    runs-on: ubuntu-latest
+    steps:
+      - id: first_step
+        run: exit 1
+
+      - name: Check outcome of first step
+        if: ${{ steps.first_step.conclusion == 'failure' }}
+        run: echo "First step failed!"
+
+  Preventing-Hangs: # this job will demonstrate how to prevent a workflow from hanging indefinitely
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Simulate long process
+        run: sleep 600
+
+  Strategy-Fail-Fast: # matrix strategy with fail-fast enabled
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [14, 16, 18]
+    steps:
+      - name: Run tests
+        run: exit 1
+
