@@ -14,6 +14,7 @@ on:
           - install-python
 jobs:
   run-linux-command:
+    if: ${{ github.event.inputs.job_to_run == 'run-linux-command' }}
     runs-on: ubuntu-latest
     steps:
       - name: execute linux command 
@@ -24,16 +25,20 @@ jobs:
         run: cat sample_file.txt
   
   install-php:
+    if: ${{ github.event.inputs.job_to_run == 'install-php' }}
     runs-on: ubuntu-latest
     steps:
+
       - name: Install PHP installation
         run: php -m
       - name: Verify PHP installation
         run: php -v
   
-  install-python: 
+  install-python:
+    if: ${{ github.event.inputs.job_to_run == 'install-python' }} 
     runs-on: ubuntu-latest
     steps:
+
       - name: install python
         uses: actions/setup-python@v7
         with:
